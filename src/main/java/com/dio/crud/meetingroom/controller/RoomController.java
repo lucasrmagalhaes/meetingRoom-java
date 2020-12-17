@@ -63,5 +63,4 @@ public class RoomController {
         response.put ("deleted", Boolean.TRUE);
         return response;
     }
-
 }
