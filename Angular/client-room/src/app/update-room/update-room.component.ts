@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../room.service';
 
 @Component({
@@ -12,36 +12,35 @@ export class UpdateRoomComponent implements OnInit {
 
   id: number;
   room: Room;
-  submited = false;
+  submitted = false;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-  private RoomService: RoomService) { }
+  constructor(private route: ActivatedRoute,private router: Router,
+    private roomService: RoomService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.room = new Room();
-    this.id = this.route.snapshot.params[ `id` ];
-    this.RoomService.getRoom(this.id)
-    .subscribe(data => {
-      console.log(data);
-      this.room = data;
 
-    }, error => console.log(error)
-    );
+    this.id = this.route.snapshot.params['id'];
+    
+    this.roomService.getRoom(this.id)
+      .subscribe(data => {
+        console.log(data)
+        this.room = data;
+      }, error => console.log(error));
   }
 
-  updateRoom(){
+  updateRoom() {
     this.roomService.updateRoom(this.id, this.room)
-    .subscribe(data => console.log(data), error => console.log(error))
+      .subscribe(data => console.log(data), error => console.log(error));
     this.room = new Room();
     this.gotoList();
   }
 
-  onSubmit(){
-    this.updateRoom();
+  onSubmit() {
+    this.updateRoom();    
   }
 
-  gotoList(){
+  gotoList() {
     this.router.navigate(['/rooms']);
   }
-
 }
